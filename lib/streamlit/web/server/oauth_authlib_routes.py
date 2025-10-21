@@ -171,6 +171,7 @@ class AuthCallbackHandler(AuthHandlerMixin, tornado.web.RequestHandler):
         client, _ = create_oauth_client(provider)
         token = client.authorize_access_token(self)
         user = cast("dict[str, Any]", token.get("userinfo"))
+        user["access_token"] = token.get("access_token")
 
         cookie_value = dict(user, origin=origin, is_logged_in=True)
         if user:
